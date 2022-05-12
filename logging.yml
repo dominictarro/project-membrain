@@ -1,0 +1,79 @@
+version: 1
+disable_existing_loggers: false
+formatters:
+    brief:
+        format: "%(asctime)s %(message)s"
+    precise:
+        format: "%(asctime)s %(levelname)-8s %(name)-15s %(message)s"
+    reddit:
+        format: "%(asctime)s %(levelname)-8s %(name)-15s %(message)s"
+    prefect:
+        format: "[%(asctime)s] %(levelname)s - %(name)s | %(message)s"
+    sqlalchemy:
+        format: "[%(asctime)s] %(levelname)s - %(name)s | %(message)s"
+handlers:
+    console:
+        class: logging.StreamHandler
+        formatter: brief
+        level: INFO
+        stream: ext://sys.stdout
+    project_file:
+        class: logging.handlers.RotatingFileHandler
+        maxBytes: 1000000 # 1mb
+        backupCount: 2
+        formatter: precise
+        filename: logs/project.log
+    reddit_file:
+        class: logging.handlers.RotatingFileHandler
+        maxBytes: 1000000 # 1mb
+        backupCount: 2
+        formatter: reddit
+        filename: logs/reddit.log
+    prefect_file:
+        class: logging.handlers.RotatingFileHandler
+        maxBytes: 1000000 # 1mb
+        backupCount: 2
+        formatter: prefect
+        filename: logs/prefect.log
+    sqlalchemy_file:
+        class: logging.handlers.RotatingFileHandler
+        maxBytes: 1000000 # 1mb
+        backupCount: 2
+        formatter: sqlalchemy
+        filename: logs/sqlalchemy.log
+loggers:
+    root:
+        handlers:
+            - console
+        level: INFO
+        propagate: false
+    reddit:
+        level: INFO
+        handlers:
+            - project_file
+    vision:
+        level: INFO
+        handlers:
+            - project_file
+    language:
+        level: INFO
+        handlers:
+            - project_file
+    praw:
+        handlers:
+            - reddit_file
+        level: DEBUG
+    prawcore:
+        handlers:
+            - reddit_file
+        level: DEBUG
+    prefect:
+        handlers:
+            - prefect_file
+        level: INFO
+    sqlalchemy:
+        handlers:
+            - sqlalchemy_file
+    sqlalchemy.engine:
+        handlers:
+            - sqlalchemy_file
