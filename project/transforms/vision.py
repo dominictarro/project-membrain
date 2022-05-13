@@ -27,12 +27,12 @@ def extract_image_meta_features(result: Result, img: np.ndarray):
         init_kwargs['height'] = img.shape[0]
         init_kwargs['width'] = img.shape[1]
         init_kwargs['channels'] = img.shape[2] if len(img.shape) > 2 else 1
-    except:
+    except Exception:
         logger.warning(f"Failed to set resolution \nid: {result}\n shape: {img.shape}\n {traceback.format_exc()}")
 
     try:
         init_kwargs['format'] = os.path.splitext(result.meme.url)[-1]
-    except: # TODO something, anything
+    except Exception:
         logger.warning(f"Failed to set format \nid: {result}\n shape: {img.shape}\n {traceback.format_exc()}")
     result.set_meme_image_from_args(**init_kwargs)
 
@@ -40,14 +40,14 @@ def extract_image_features(result: Result):
     try:
         img: np.ndarray = iio.get_image(result.meme.url)
         result.is_db_ready = True
-    except:
+    except Exception:
         logger.warning(f"Errored while getting the image  \nid: {result}\n {traceback.format_exc()}")
         result.is_db_ready = False
         return
     
     try:
         result.meme.id = ialg.perceptual_hash(img, hash_size=8).to_bytes(8, sys.byteorder)
-    except:
+    except Exception:
         logger.warning(f"Errored while setting the hash id  \nid: {result}\n {traceback.format_exc()}")
         result.is_db_ready = False
         return

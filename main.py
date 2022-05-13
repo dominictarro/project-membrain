@@ -49,19 +49,19 @@ def cv2_transform(results: List[Result]) -> List[Result]:
 def db_load(results: List[Result], dependents: Optional[Tuple[Any]] = None):
     with Session() as s:
         s: _Session
-        to_save = list(map(
+        to_save = map(
             lambda r: r.meme, 
             filter(lambda r: r.is_db_ready, results)
-        ))
-        #s.bulk_save_objects(to_save)
-        #s.commit()
-        logging.info(f"bulk saving {len(to_save)} / {len(results)}")
-        for i, meme in enumerate(to_save):
+        )
+        loaded = 0
+        for meme in to_save:
             try:
                 s.add(meme)
                 s.commit()
-            except:
+                loaded += 1
+            except Exception:
                 logging.error(f"Errored while inserting {meme}\n{traceback.format_exc()}")
+        logging.info(f"loaded {loaded} / {len(results)}")
 
 with prefect.Flow('test') as flow:
     reddit_limit = prefect.Parameter('reddit_limit', int(os.getenv('REDDIT_QUERY_SIZE', 100)))
