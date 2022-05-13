@@ -13,6 +13,7 @@ nltk = "*"
 numpy = "*"
 opencv-python = "*"
 psycopg2-binary = "*"
+imageio = "*"
 
 [dev-packages]
 pipenv = "*"
