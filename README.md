@@ -57,5 +57,6 @@ Open a terminal and navigate to the project
 
 ```bash
 source ./venv/bin/activate
+docker-compose up -d db
 python3.10 main.py
 ```
