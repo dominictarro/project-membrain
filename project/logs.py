@@ -8,7 +8,7 @@ import os
 import yaml
 
 LOG_ENV = 'LOGGING_CONFIGURATION'
-log_file = os.getenv(LOG_ENV)
+log_file = os.getenv(LOG_ENV, 'logging.yml')
 if log_file is None:
     print(f"Environment variable '{LOG_ENV}' does not exist")
     exit(1)
