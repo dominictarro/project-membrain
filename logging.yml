@@ -62,11 +62,11 @@ loggers:
     praw:
         handlers:
             - reddit_file
-        level: DEBUG
+        level: INFO
     prawcore:
         handlers:
             - reddit_file
-        level: DEBUG
+        level: INFO
     prefect:
         handlers:
             - prefect_file
