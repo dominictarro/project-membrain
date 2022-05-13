@@ -1,5 +1,5 @@
 # Project Data
-.nltk_data/
+nltk_data/
 logs/
 
 # Byte-compiled / optimized / DLL files

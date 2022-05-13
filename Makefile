@@ -1,5 +1,5 @@
 py=`pwd`/venv/bin/python3.10
-nltk_data=`pwd`/.nltk_data
+nltk_data=`pwd`/nltk_data
 docker_db_data=`pwd`/.docker_db_data
 .DEFAULT_GOAL := build
 
@@ -22,5 +22,5 @@ create-database:
 	docker-compose up --no-start db
 .env:
 	if ! [ -f .env ]; then touch .env; done
-	
+
 build: venv nltk logs create-database
