@@ -23,7 +23,27 @@ from sqlalchemy.orm import aliased, declarative_base, relationship
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql import func, join, text
 
-engine = create_engine(os.environ['DATABASE_URL'])
+try:
+    POSTGRES_USER=os.environ['POSTGRES_USER']
+except KeyError:
+    print("Set a POSTGRES_USER value in .env")
+    exit(1)
+
+try:
+    POSTGRES_PASSWORD=os.environ['POSTGRES_PASSWORD']
+except KeyError:
+    print("Set a POSTGRES_PASSWORD value in .env")
+    exit(1)
+
+try:
+    POSTGRES_DB=os.environ['POSTGRES_DB']
+except KeyError:
+    print("Set a POSTGRES_DB value in .env")
+    exit(1)
+
+engine = create_engine(
+    f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost:5432/{POSTGRES_DB}"
+)
 Session: sessionmaker = sessionmaker(engine)
 Base = declarative_base(bind=engine)
 
